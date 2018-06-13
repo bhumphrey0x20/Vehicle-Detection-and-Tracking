@@ -1,17 +1,11 @@
-## Writeup Template
-### You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
-
----
-
-**Vehicle Detection Project**
+## Udacity Self-Driving Car, Term1, 
+### Project 4: **Vehicle Detection**
 
 The goals / steps of this project are the following:
 
-* Perform a Histogram of Oriented Gradients (HOG) feature extraction on a labeled training set of images and train a classifier Linear SVM classifier
-* Optionally, you can also apply a color transform and append binned color features, as well as histograms of color, to your HOG feature vector. 
-* Note: for those first two steps don't forget to normalize your features and randomize a selection for training and testing.
-* Implement a sliding-window technique and use your trained classifier to search for vehicles in images.
-* Run your pipeline on a video stream (start with the test_video.mp4 and later implement on full project_video.mp4) and create a heat map of recurring detections frame by frame to reject outliers and follow detected vehicles.
+* Perform feature extraction using Histogram of Oriented Gradients (HOG), color features, and histogram of colors from a labeled training set of images and train a classifier Linear SVM classifier
+* Implement a sliding-window technique and use the trained classifier to search for vehicles in images.
+* Run a pipeline on a video stream (start with the test_video.mp4 and later implement on full project_video.mp4) and create a heat map of recurring detections frame by frame to reject outliers and follow detected vehicles.
 * Estimate a bounding box for vehicles detected.
 
 [//]: # (Image References)
@@ -25,22 +19,37 @@ The goals / steps of this project are the following:
 [video1]: ./project_video.mp4
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/513/view) Points
-### Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
+### The rubric points are considered individually and it's implementation is describe below.  
 
 ---
 ### Writeup / README
 
 #### 1. Provide a Writeup / README that includes all the rubric points and how you addressed each one.  You can submit your writeup as markdown or pdf.  [Here](https://github.com/udacity/CarND-Vehicle-Detection/blob/master/writeup_template.md) is a template writeup for this project you can use as a guide and a starting point.  
 
-You're reading it!
+The following is a write up of Project 4. Additionally, a README file containing the project summary is located in the main part of this repository. All code reference in this write up can be found in the IPython notebook "vehicle_detection.ipynb"
 
-### Histogram of Oriented Gradients (HOG)
+### Histogram of Oriented Gradients (HOG), Color, and Histogram Features
 
 #### 1. Explain how (and identify where in your code) you extracted HOG features from the training images.
 
-The code for this step is contained in the first code cell of the IPython notebook (or in lines # through # of the file called `some_file.py`).  
+The code for this step is contained in IPython notebook under the section 'Feature Extraction'. The majority of the code in this cell was taken in whole, or adapted from, code provided in lecture. 
 
-I started by reading in all the `vehicle` and `non-vehicle` images.  Here is an example of one of each of the `vehicle` and `non-vehicle` classes:
+For feature extraction the function `single_img_features()` wraps up the HOG, color space, spatial, and histogram features functions. The function `get_hog_features()` takes as arguments oritentation, pixels_per_cell, and cells_per_block and passes them to the sklearn function `hog()`. Figure 1 and 2 are examples of training images and their respective hog features visualations.
+
+### Figure 1. Car images and hog features.
+
+<img src="https://github.com/bhumphrey0x20/Vehicle-Detection-and-Tracking/output_images/car_test_img_hog.png" height="480" width="640" />
+
+### Figure 1. Car images and hog features.
+<img src="https://github.com/bhumphrey0x20/Vehicle-Detection-and-Tracking/output_images/notcar_test_img_hog.png" height="480" width="640" />
+
+
+
+To begin, all the `vehicle` and `non-vehicle` images were read with `cv2.imread()`. Each images is transformed into LUV color space. Then the spatial features, color histogram, and HOG features are extracted from the LUV image and appended together and reshaped to form an array of features. 
+
+
+
+##########################
 
 ![alt text][image1]
 
