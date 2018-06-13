@@ -34,18 +34,32 @@ The following is a write up of Project 4. Additionally, a README file containing
 
 The code for this step is contained in IPython notebook under the section 'Feature Extraction'. The majority of the code in this cell was taken in whole, or adapted from, code provided in lecture. 
 
-For feature extraction the function `single_img_features()` wraps up the HOG, color space, spatial, and histogram features functions. The function `get_hog_features()` takes as arguments oritentation, pixels_per_cell, and cells_per_block and passes them to the sklearn function `hog()`. Figure 1 and 2 are examples of training images and their respective hog features visualations.
+For feature extraction the function `single_img_features()` wraps up the HOG, color space, spatial, and histogram features functions. The function `get_hog_features()` takes as arguments orientatation, pixels_per_cell, and cells_per_block and passes them to the sklearn function `hog()`. The HOG parameters are listed in Table 1.  
+
+[Table 1: HOG Parameters ]
+
+
+| HOG Parameters | Values   | 
+|:-------------:|:-------------:| 
+| orientation   | 9      | 
+| pix_per_cell   | 16     |
+| cell_per_block | 4     |
+| hog_channel    | ALL     |
+
+
+Figure 1 and 2 are examples of training images and their respective hog features visualations.
 
 ### Figure 1. Car images and hog features.
 
-<img src="https://github.com/bhumphrey0x20/Vehicle-Detection-and-Tracking/output_images/car_test_img_hog.png" height="480" width="640" />
+<img src="https://raw.githubusercontent.com/bhumphrey0x20/Vehicle-Detection-and-Tracking/master/output_images/car_test_img_hog.png" height="480" width="640" />
 
 ### Figure 1. Car images and hog features.
-<img src="https://github.com/bhumphrey0x20/Vehicle-Detection-and-Tracking/output_images/notcar_test_img_hog.png" height="480" width="640" />
+<img src="https://raw.githubusercontent.com/bhumphrey0x20/Vehicle-Detection-and-Tracking/master/output_images/notcar_test_img_hog.png" height="480" width="640" />
 
 
+For additionally, spatial features
 
-To begin, all the `vehicle` and `non-vehicle` images were read with `cv2.imread()`. Each images is transformed into LUV color space. Then the spatial features, color histogram, and HOG features are extracted from the LUV image and appended together and reshaped to form an array of features. 
+features extraction Each images is transformed into LUV color space. Then the spatial features, color histogram, and HOG features are extracted from the LUV image and appended together and reshaped to form an array of features. 
 
 
 
