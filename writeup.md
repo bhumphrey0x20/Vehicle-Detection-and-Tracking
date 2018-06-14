@@ -73,7 +73,9 @@ Next, the features for each training images was obtained by converting to LUV an
 
 Then both training and testing data were normalized using sklearn's `StandardScaler().fit()` and `StandardScaler().transform()`. Finally, the SVM model was training using `LinearSVC()`. The accuracy of the model tested using `LinearSVC().score()`. Results of the models uding various features parameters are listed in Table 2 above.  
 
-### Table 2: Accuracies of SVC models using various feature parameters.
+### Table 2: Percent Accuracies of SVC models using various feature parameters.
+
+<img src="https://raw.githubusercontent.com/bhumphrey0x20/Vehicle-Detection-and-Tracking/master/output_images/featureModelTesting.png" height="480" width="640" />
 
 
 
