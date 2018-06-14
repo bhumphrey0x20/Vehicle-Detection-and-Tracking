@@ -78,18 +78,17 @@ Then both training and testing data were normalized using sklearn's `StandardSca
 <img src="https://raw.githubusercontent.com/bhumphrey0x20/Vehicle-Detection-and-Tracking/master/output_images/featureModelTesting.png" height="480" width="640" />
 
 
-
-
-
-##########################
-
-
-
 ### Sliding Window Search
 
 #### 1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
 
-I decided to search random window positions at random scales all over the image and came up with this (ok just kidding I didn't actually ;):
+Sliding windows was implementaed using a set size of 64x64 pixels with 75% overlap for each window throughout the image. As a starting point, the windows start at the midpoint of the y-axis (y = 360 pixels) and covers the entire x-axis. This was somewhat arbitrary point, but the start point is high enought to cover periferal vehicles that are close and appear large. It is also low enought to exclude superfluous background objects. 
+
+The idea of a 75% overlap was to cover as much of a distant (or smaller) vehicles as posiible without the need to resize. The example image below shows an image with a car at a mediam range distance: not too close, but not extremely far. The Figure shows all the sliding windows superimposed on the image. Figure __ shows a subsampled image of the car of size 65x100. At this size, with an overlap of 75%, the car is covered by four windows down and six windows across, giving a total of 24 windows over the entire car. Figure ___ shows another image segment of a car closer to the camera. The image segment is 85x145 pixels. And is covered by 40 windows. 
+
+
+
+###########################
 
 ![alt text][image3]
 
