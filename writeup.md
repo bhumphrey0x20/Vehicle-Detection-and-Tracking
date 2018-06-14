@@ -26,28 +26,32 @@ The goals / steps of this project are the following:
 
 #### 1. Provide a Writeup / README that includes all the rubric points and how you addressed each one.  You can submit your writeup as markdown or pdf.  [Here](https://github.com/udacity/CarND-Vehicle-Detection/blob/master/writeup_template.md) is a template writeup for this project you can use as a guide and a starting point.  
 
-The following is a write up of Project 4. Additionally, a README file containing the project summary is located in the main part of this repository. All code reference in this write up can be found in the IPython notebook "vehicle_detection.ipynb"
+The following is a write up of Project 4. Additionally, a README file containing the project summary is located in the main part of this repository. All code referenced in this write up can be found in the IPython notebook "vehicle_detection.ipynb"
 
 ### Histogram of Oriented Gradients (HOG), Color, and Histogram Features
 
 #### 1. Explain how (and identify where in your code) you extracted HOG features from the training images.
 
-The code for this step is contained in IPython notebook under the section 'Feature Extraction'. The majority of the code in this cell was taken in whole, or adapted from, code provided in lecture. 
+The code for this step is contained in IPython notebook under the section 'Feature Extraction'. The majority of the code in this section was taken in whole, or adapted from, code provided in Lesson 20. 
 
-For feature extraction the function `single_img_features()` wraps up the HOG, color space, spatial, and histogram features functions. The function `get_hog_features()` takes as arguments orientatation, pixels_per_cell, and cells_per_block and passes them to the sklearn function `hog()`. The HOG parameters are listed in Table 1.  
+HOG features were obtained using the function `get_hog_features()` which wraps the sklearn function `hog()`. To arive at the chosen HOG parameters training accuracies were tested for mulitiple parameters (see "Training Classifier" below). Ultimately, LUV color-space using all three channels yeilded the best results (Table 2). Originally features were extracted using orientation = 9, pixels_per_cell = 8 and cells_per_block = 4, however after training the classifier these parameters were changed (Table 1). 
 
-[Table 1: HOG Parameters ]
+For feature extraction the function `single_img_features()` wraps up the HOG, color space, spatial, and histogram features functions. The function `get_hog_features()` takes as arguments orientatation, pixels_per_cell, and cells_per_block and passes them to the sklearn function `skimage.hog()`. The HOG parameters are listed in Table 1.  
+| hog_channel    | ALL     |
+[Table 1: HOG Parameters for Classifier]
 
 
 | HOG Parameters | Values   | 
 |:-------------:|:-------------:| 
+| Color Space    | LUV     |
+| hog_channel    | ALL     |
 | orientation   | 9      | 
 | pix_per_cell   | 16     |
 | cell_per_block | 4     |
-| hog_channel    | ALL     |
 
 
-Figure 1 and 2 are examples of training images and their respective hog features visualations.
+
+Figures 1 and 2 are subsample of the training images and their respective hog features visualations.
 
 ### Figure 1. Car images and hog features.
 
@@ -57,30 +61,20 @@ Figure 1 and 2 are examples of training images and their respective hog features
 <img src="https://raw.githubusercontent.com/bhumphrey0x20/Vehicle-Detection-and-Tracking/master/output_images/notcar_test_img_hog.png" height="480" width="640" />
 
 
-For additionally, spatial features
 
-features extraction Each images is transformed into LUV color space. Then the spatial features, color histogram, and HOG features are extracted from the LUV image and appended together and reshaped to form an array of features. 
 
+#### 3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
+
+Training of the classifiers can be found in section "Classifier Training" of the IPython notebook. Classification was done using a linear SVM. Test images were obtained from the [GTI vehicle image database](http://www.gti.ssr.upm.es/data/Vehicle_database.html) and [KITTI vision benchmark suit](http://www.cvlibs.net/datasets/kitti) (both links originally provided by Udacity). The training images were 64x64 pixels and presorted by vehicles and non-vehicles. These totaled 8792 vehicle images and 8968 non-vehicles images. Additionally, images were added added to the vehicles training set from a Udacity provide [image set](http://bit.ly/udacity-annoations-crowdai), however multiple errors were encountered while parsing the "corrected" csv file, so only an additional 251 vehicle images where added. These vehicles images were extracted from a larger road scene and resized to 64x64 pixels. 
+
+Images were appended to two python lists: cars and notcars. The training images were then shuffled and a portion of the car images were randomly removed, so the number of vehicle and non-vehicle images were equal. This was done using the sklearn function `utils.shuffle()` with `n_samples` paramter equal to the number of non-vehicles.
+
+Next the features for each training images was obtained by converting to LUV and appending the color space, spatial, histogram, and HOG features. 
 
 
 ##########################
 
-![alt text][image1]
 
-I then explored different color spaces and different `skimage.hog()` parameters (`orientations`, `pixels_per_cell`, and `cells_per_block`).  I grabbed random images from each of the two classes and displayed them to get a feel for what the `skimage.hog()` output looks like.
-
-Here is an example using the `YCrCb` color space and HOG parameters of `orientations=8`, `pixels_per_cell=(8, 8)` and `cells_per_block=(2, 2)`:
-
-
-![alt text][image2]
-
-#### 2. Explain how you settled on your final choice of HOG parameters.
-
-I tried various combinations of parameters and...
-
-#### 3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
-
-I trained a linear SVM using...
 
 ### Sliding Window Search
 
