@@ -32,12 +32,12 @@ The following is a write up of Project 4. Additionally, a README file containing
 
 #### 1. Explain how (and identify where in your code) you extracted HOG features from the training images.
 
-The code for this step is contained in IPython notebook under the section 'Feature Extraction'. The majority of the code in this section was taken in whole, or adapted from, code provided in Lesson 20. 
+The code for this step is contained in IPython notebook under the section 'Feature Extraction Functions'. The majority of the code in this section was taken in whole, or adapted from, code provided in Lesson 20. 
 
 HOG features were obtained using the function `get_hog_features()` which wraps the sklearn function `hog()`. To arive at the chosen HOG parameters training accuracies were tested for mulitiple parameters (see "Training Classifier" below). Ultimately, LUV color-space using all three channels yeilded the best results (Table 2). Originally features were extracted using orientation = 9, pixels_per_cell = 8 and cells_per_block = 4, however after training the classifier these parameters were changed (Table 1). 
 
 For feature extraction the function `single_img_features()` wraps up the HOG, color space, spatial, and histogram features functions. The function `get_hog_features()` takes as arguments orientatation, pixels_per_cell, and cells_per_block and passes them to the sklearn function `skimage.hog()`. The HOG parameters are listed in Table 1.  
-| hog_channel    | ALL     |
+
 [Table 1: HOG Parameters for Classifier]
 
 
@@ -69,7 +69,14 @@ Training of the classifiers can be found in section "Classifier Training" of the
 
 Images were appended to two python lists: cars and notcars. The training images were then shuffled and a portion of the car images were randomly removed, so the number of vehicle and non-vehicle images were equal. This was done using the sklearn function `utils.shuffle()` with `n_samples` paramter equal to the number of non-vehicles.
 
-Next the features for each training images was obtained by converting to LUV and appending the color space, spatial, histogram, and HOG features. 
+Next, the features for each training images was obtained by converting to LUV and appending the color space, spatial, histogram, and HOG features using the `extract_features()` in section 'Feature Extraction Functions'. Testing features were extracted from 20% of the training features using sklearn function `train_test_split()`. 
+
+Then both training and testing data were normalized using sklearn's `StandardScaler().fit()` and `StandardScaler().transform()`. Finally, the SVM model was training using `LinearSVC()`. The accuracy of the model tested using `LinearSVC().score()`. Results of the models uding various features parameters are listed in Table 2 above.  
+
+### Table 2: Accuracies of SVC models using various feature parameters.
+
+
+
 
 
 ##########################
