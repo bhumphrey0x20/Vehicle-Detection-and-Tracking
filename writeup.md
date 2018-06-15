@@ -88,9 +88,22 @@ The idea of a 75% overlap was to cover as much of a distant (or smaller) vehicle
 
 During vehicle classification each window was subsampled and features were obtained using `single_img_features()` and run through the classifier, `clf.predict()`. If a window is classifed as a vehicle the corrdinates are stored in an array called `hot_windows`.  
 
-To reduce false positives from during classification a heatmap was created, see section "Single Image Classification". First, the `hot_windows` array was passed to `add_heat()`, which takes the area of the positively classified window coordinates and adds "1" to a black image, `heat`. The `heat` image was thresholded at a value of "3" with `apply_threshold()` to make the `heatmap` image. The "blobs " or positive areas remaing after thresholding in the heatmap were "labeled" with sklearn's `label()` function. From the labels, bounding boxes were drawn on the original RGB image using `draw_label_bboxes()`
+To reduce false positives from during classification a heatmap was created, see section "Single Image Classification". First, the `hot_windows` array was passed to `add_heat()`, which takes the area of the positively classified window coordinates and adds "1" to a `np.zero_like()` image,for form a `heat`. The `heat` image was thresholded at a value of "3" using `apply_threshold()` to make the `heatmap` image. The "blobs " or positive areas remaining after thresholding in the heatmap were `scipy.ndimage.measurements.label()`. From the labels, bounding boxes were drawn on the original RGB image using `draw_label_bboxes()`
 
-This process worked reasonable well for single test images but a more robust approach was needed to remove false positives from the video image. It was reasoned that a true vehicle should appear in the same general area for at least 10 frames, while false positives should not, in which they would be filtered out. For this the `heat` image of each frame was stored in a circular buffer of index = 10. After each frame the images in the buffer were summed and the summed image passed to `apply_threshold()` using a threshold value = 20. 
+### Video Implementation
+
+#### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
+Here's a [link to my video result](./project_video.mp4)
+
+
+#### 2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
+
+
+This process worked reasonable well for single test images but a more robust approach was needed to remove false positives from the video image. For this 10 `heat` images were stored in a circular buffer. After each frame the images in the buffer were summed and passed to `apply_threshold()` using a threshold value = 20. Then labels were found and bounding boxes drawn. 
+
+Additionally, to track a vehicle's position over time a vehicle class was created to store information about it's location, bounding box size and area, and last frame since identified. 
+
+
 
 ###########################
 
