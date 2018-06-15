@@ -26,7 +26,7 @@ The goals / steps of this project are the following:
 
 #### 1. Provide a Writeup / README that includes all the rubric points and how you addressed each one.  You can submit your writeup as markdown or pdf.  [Here](https://github.com/udacity/CarND-Vehicle-Detection/blob/master/writeup_template.md) is a template writeup for this project you can use as a guide and a starting point.  
 
-The following is a write up of Project 4. Additionally, a README file containing the project summary is located in the main part of this repository. All code referenced in this write up can be found in the IPython notebook "vehicle_detection.ipynb"
+The following is a writeup of Project 4. Additionally, a README file containing the project summary is located in the main part of this repository. All code referenced in this write up can be found in the IPython notebook "vehicle_detection.ipynb"
 
 ### Histogram of Oriented Gradients (HOG), Color, and Histogram Features
 
@@ -34,9 +34,7 @@ The following is a write up of Project 4. Additionally, a README file containing
 
 The code for this step is contained in IPython notebook under the section 'Feature Extraction Functions'. The majority of the code in this section was taken in whole, or adapted from, code provided in Lesson 20. 
 
-HOG features were obtained using the function `get_hog_features()` which wraps the sklearn function `hog()`. To arive at the chosen HOG parameters training accuracies were tested for mulitiple parameters (see "Training Classifier" below). Ultimately, LUV color-space using all three channels yeilded the best results (Table 2). Originally features were extracted using orientation = 9, pixels_per_cell = 8 and cells_per_block = 4, however after training the classifier these parameters were changed (Table 1). 
-
-For feature extraction the function `single_img_features()` wraps up the HOG, color space, spatial, and histogram features functions. The function `get_hog_features()` takes as arguments orientatation, pixels_per_cell, and cells_per_block and passes them to the sklearn function `skimage.hog()`. The HOG parameters are listed in Table 1.  
+HOG features were obtained using the function `get_hog_features()` which wraps the sklearn function `skimage.hog()`. HOG parameters were selected after training models using various features (HOG and others). The feature combination with the best accuracy was selected (see "Training Classifier" below). For HOG features this included using LUV color-space with all three channels an orientation = 9, pixels_per_cell = 16 and cells_per_block = 2 (Table 1). Figures 1 and 2 show training images and their respective hog features visualations.
 
 [Table 1: HOG Parameters for Classifier]
 
@@ -51,15 +49,38 @@ For feature extraction the function `single_img_features()` wraps up the HOG, co
 
 
 
-Figures 1 and 2 are subsample of the training images and their respective hog features visualations.
 
 ### Figure 1. Car images and hog features.
 
 <img src="https://raw.githubusercontent.com/bhumphrey0x20/Vehicle-Detection-and-Tracking/master/output_images/car_test_img_hog.png" height="480" width="640" />
 
-### Figure 1. Car images and hog features.
+### Figure 2. Car images and hog features.
 <img src="https://raw.githubusercontent.com/bhumphrey0x20/Vehicle-Detection-and-Tracking/master/output_images/notcar_test_img_hog.png" height="480" width="640" />
 
+
+For feature extraction the function `single_img_features()` wraps up the HOG, spatial, and histogram features functions. Parameters chosen for the additional features are listed in Table 2. `bin_spatial()` outputs spatial features by resizing the input LUV images to 16x16 pixels and vectorized the values. Histogram features were obtained using `color_hist()` that creates a histogram of the LUV image with a bin size of 16. Figures 3-5 shows the LUV, spatial features and histogram features of a sample test image.
+
+[Table 1: Spatial, Histogram Features for Classifier]
+
+
+| HOG Parameters | Values   | 
+|:-------------:|:-------------:| 
+| Color Space    | LUV     |
+| hog_channel    | ALL     |
+| orientation   | 9      | 
+| pix_per_cell   | 16     |
+| cell_per_block | 4     |
+
+
+### Figure 3. Training Image in LUV Color Space.
+
+<img src="https://raw.githubusercontent.com/bhumphrey0x20/Vehicle-Detection-and-Tracking/master/output_images/car_test_img_hog.png" height="480" width="640" />
+
+### Figure 4. Plot of Spatial Freatures of Training Image.
+<img src="https://raw.githubusercontent.com/bhumphrey0x20/Vehicle-Detection-and-Tracking/master/output_images/notcar_test_img_hog.png" height="480" width="640" />
+
+### Figure 5. Plot of Training Image Histogram.
+<img src="https://raw.githubusercontent.com/bhumphrey0x20/Vehicle-Detection-and-Tracking/master/output_images/notcar_test_img_hog.png" height="480" width="640" />
 
 
 
