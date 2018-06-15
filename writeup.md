@@ -86,7 +86,11 @@ Sliding windows was implementaed using a set size of 64x64 pixels with 75% overl
 
 The idea of a 75% overlap was to cover as much of a distant (or smaller) vehicles as posiible without the need to resize. The example image below shows an image with a car at a mediam range distance: not too close, but not extremely far. The Figure shows all the sliding windows superimposed on the image. Figure __ shows a subsampled image of the car of size 65x100. At this size, with an overlap of 75%, the car is covered by four windows down and six windows across, giving a total of 24 windows over the entire car. Figure ___ shows another image segment of a car closer to the camera. The image segment is 85x145 pixels. And is covered by 40 windows. 
 
+During vehicle classification each window was subsampled and features were obtained using `single_img_features()` and run through the classifier, `clf.predict()`. If a window is classifed as a vehicle the corrdinates are stored in an array called `hot_windows`.  
 
+To reduce false positives from during classification a heatmap was created, see section "Single Image Classification". First, the `hot_windows` array was passed to `add_heat()`, which takes the area of the positively classified window coordinates and adds "1" to a black image, `heat`. The `heat` image was thresholded at a value of "3" with `apply_threshold()` to make the `heatmap` image. The "blobs " or positive areas remaing after thresholding in the heatmap were "labeled" with sklearn's `label()` function. From the labels, bounding boxes were drawn on the original RGB image using `draw_label_bboxes()`
+
+This process worked reasonable well for single test images but a more robust approach was needed to remove false positives from the video image. It was reasoned that a true vehicle should appear in the same general area for at least 10 frames, while false positives should not, in which they would be filtered out. For this the `heat` image of each frame was stored in a circular buffer of index = 10. After each frame the images in the buffer were summed and the summed image passed to `apply_threshold()` using a threshold value = 20. 
 
 ###########################
 
