@@ -32,9 +32,9 @@ The following is a writeup of Project 4. Additionally, a README file containing 
 
 #### 1. Explain how (and identify where in your code) you extracted HOG features from the training images.
 
-The code for this step is contained in IPython notebook under the section 'Feature Extraction Functions'. The majority of the code in this section was taken in whole, or adapted from, code provided in Lesson 20. 
+The code for this step is contained in IPython notebook 'vehicle-detection.ipynb' under the section 'Feature Extraction Functions'. The majority of the code in this section was taken in whole, or adapted from, code provided in Lesson 20. 
 
-HOG features were obtained using the function `get_hog_features()` which wraps the sklearn function `skimage.hog()`. HOG parameters were selected after training models using various features (HOG and others). The feature combination with the best accuracy was selected (see "Training Classifier" below). For HOG features this included using LUV color-space with all three channels an orientation = 9, pixels_per_cell = 16 and cells_per_block = 2 (Table 1). Figures 1 and 2 show training images and their respective hog features visualations.
+HOG features were obtained using the function `get_hog_features()` which wraps the sklearn function `skimage.hog()`. HOG parameters were selected after training models using various features (HOG and others). The feature combination with the best accuracy ( LUV color space) was selected however this was changed to help remove false positives. (see "Training Classifier" below). For HOG features this included using YCrCb color-space, using all three channels,  an orientation = 9, pixels_per_cell = 16 and cells_per_block = 2 (Table 1). Figures 1 and 2 show training images and their respective hog features visualations.
 
 [Table 1: HOG Parameters for Classifier]
 
