@@ -114,9 +114,14 @@ privided a slightly more robust detection algorithm than smaller values (e.g. 50
 ### Figure 7. Plot of Training Image Histogram.
 <img src="https://raw.githubusercontent.com/bhumphrey0x20/Vehicle-Detection-and-Tracking/master/output_images/slideWindow_car2.png" height="480" width="640" />
 
-During vehicle classification each window was subsampled and features were obtained using `single_img_features()` and run through the classifier, `clf.predict()`. If a window is classifed as a vehicle the corrdinates are stored in an array called `hot_windows`.  
+During vehicle classification each section of the image covered by a sliding window was subsampled and features were obtained using `single_img_features()`, then run through the classifier `sklearn.svm.SVC().predict()`. If a window was classifed as a vehicle the corrdinates were stored in an list called `hot_windows`. 
 
 To reduce false positives from during classification a heatmap was created, see section "Single Image Classification". First, the `hot_windows` array was passed to `add_heat()`, which takes the area of the positively classified window coordinates and adds "1" to a `np.zero_like()` image,for form a `heat`. The `heat` image was thresholded at a value of "3" using `apply_threshold()` to make the `heatmap` image. The "blobs " or positive areas remaining after thresholding in the heatmap were `scipy.ndimage.measurements.label()`. From the labels, bounding boxes were drawn on the original RGB image using `draw_label_bboxes()`
+
+
+
+The bounding boxes were then drawn on the original image using 'draw_labeled_bboxes()' (section 'Heatmap Functions') using based on hot_windows coordinates.  
+
 
 ### Video Implementation
 
@@ -125,6 +130,8 @@ Here's a [link to my video result](./project_video.mp4)
 
 
 #### 2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
+
+
 
 
 This process worked reasonable well for single test images but a more robust approach was needed to remove false positives from the video image. For this 10 `heat` images were stored in a circular buffer. After each frame the images in the buffer were summed and passed to `apply_threshold()` using a threshold value = 20. Then labels were found and bounding boxes drawn. 
