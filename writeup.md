@@ -112,7 +112,7 @@ privided a slightly more robust detection algorithm than smaller values (e.g. 50
 <img src="https://raw.githubusercontent.com/bhumphrey0x20/Vehicle-Detection-and-Tracking/master/output_images/slidingWindows.jpg" height="480" width="640" />
 
 ### Figure 7. Plot of Training Image Histogram.
-<img src="https://raw.githubusercontent.com/bhumphrey0x20/Vehicle-Detection-and-Tracking/master/output_images/slideWindows_car2.jpg" height="480" width="640" />
+<img src="https://raw.githubusercontent.com/bhumphrey0x20/Vehicle-Detection-and-Tracking/master/output_images/slideWindow_car2.png" height="480" width="640" />
 
 During vehicle classification each window was subsampled and features were obtained using `single_img_features()` and run through the classifier, `clf.predict()`. If a window is classifed as a vehicle the corrdinates are stored in an array called `hot_windows`.  
 
