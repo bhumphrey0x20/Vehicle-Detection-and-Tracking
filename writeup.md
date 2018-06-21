@@ -58,7 +58,7 @@ HOG features were obtained using the function `get_hog_features()` which wraps t
 <img src="https://raw.githubusercontent.com/bhumphrey0x20/Vehicle-Detection-and-Tracking/master/output_images/notcar_test_img_hog.png" height="480" width="640" />
 
 
-For feature extraction the function `single_img_features()` wraps up the HOG, spatial, and histogram features functions. Parameters chosen for the additional features are listed in Table 2. The function `bin_spatial()` outputs spatial features by simply resizing the input YCrCb images to 16x16 pixels lists the values in an array. Histogram features were obtained using `color_hist()` to create histograms  of all three channels using a bin size of 32. The histograms were then concatenated together. Figures 3-5 shows the YCrCb, spatial features and histogram features of a sample test image.
+For feature extraction the function `single_img_features()` wraps up the HOG, spatial, and histogram features functions. Parameters chosen for the additional features are listed in Table 2. The function `bin_spatial()` outputs spatial features by simply resizing the input YCrCb images to 16x16 pixels lists the values in an array. Histogram features were obtained using `color_hist()` to create histograms  of all three channels using a bin size of 32 (original training was performed using 16 bins, however during video processing this was changed to 32 to reduce false positives). The histograms were then concatenated together. Figures 3-5 shows the YCrCb, spatial features and histogram features of a sample test image.
 
 [Table 1: Spatial, Histogram Features for Classifier]
 
@@ -119,6 +119,9 @@ During vehicle classification each section of the image covered by a sliding win
 
 To reduce false positives from during classification a heatmap was created, see section "Single Image Classification". First, the `hot_windows` array was passed to `add_heat()`, which takes the area of the positively classified window coordinates and adds "1" to a `np.zero_like()` image,for form a `heat`. The `heat` image was thresholded at a value of "3" using `apply_threshold()` to make the `heatmap` image. The "blobs " or positive areas remaining after thresholding in the heatmap were labeled using `scipy.ndimage.measurements.label()`. From the labels, bounding boxes were drawn on the original RGB image using `draw_label_bboxes()` frin section 'Heatmap Functions'.
 
+### Figure 7. Vehicle Detection of Test Image.
+<img src="https://raw.githubusercontent.com/bhumphrey0x20/Vehicle-Detection-and-Tracking/master/output_images/single_image.jpg" height="480" width="640" />
+
 
 ### Video Implementation
 
@@ -138,5 +141,7 @@ This process worked reasonable well for the test images, but a more robust appro
 
 #### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
+The biggest problems in the implementation of the video were 1, reduction of false positives and 2, finding a threshold value that would yield bounding boxes large enough to reasonable fit the detected vehicles. The original video implementation included tresholding a single heat image, but would not remove false positives. The summing of multiple heat image worked to reduce false positives. Further training with added road images also help. 
+
+However 
 
