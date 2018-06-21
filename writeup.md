@@ -71,15 +71,16 @@ For feature extraction the function `single_img_features()` wraps up the HOG, sp
 | Histogram Bin Size  | 32    | 
 
 
+
 ### Figure 3. Training Image in YCrCb Color Space.
 
-<img src="https://raw.githubusercontent.com/bhumphrey0x20/Vehicle-Detection-and-Tracking/master/output_images/car_test_img_hog.png" height="480" width="640" />
+<img src="https://raw.githubusercontent.com/bhumphrey0x20/Vehicle-Detection-and-Tracking/master/output_images/Train_ycrcb.png" height="480" width="640" />
 
 ### Figure 4. Plot of Spatial Freatures of Training Image.
-<img src="https://raw.githubusercontent.com/bhumphrey0x20/Vehicle-Detection-and-Tracking/master/output_images/notcar_test_img_hog.png" height="480" width="640" />
+<img src="https://raw.githubusercontent.com/bhumphrey0x20/Vehicle-Detection-and-Tracking/master/output_images/bin_features.png" height="480" width="640" />
 
 ### Figure 5. Plot of Training Image Histogram.
-<img src="https://raw.githubusercontent.com/bhumphrey0x20/Vehicle-Detection-and-Tracking/master/output_images/notcar_test_img_hog.png" height="480" width="640" />
+<img src="https://raw.githubusercontent.com/bhumphrey0x20/Vehicle-Detection-and-Tracking/master/output_images/histogram.png" height="480" width="640" />
 
 
 
