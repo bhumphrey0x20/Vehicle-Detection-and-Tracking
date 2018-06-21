@@ -41,7 +41,7 @@ HOG features were obtained using the function `get_hog_features()` which wraps t
 
 | HOG Parameters | Values   | 
 |:-------------:|:-------------:| 
-| Color Space    | LUV     |
+| Color Space    | YCrCb     |
 | hog_channel    | ALL     |
 | orientation   | 9      | 
 | pix_per_cell   | 16     |
@@ -58,21 +58,20 @@ HOG features were obtained using the function `get_hog_features()` which wraps t
 <img src="https://raw.githubusercontent.com/bhumphrey0x20/Vehicle-Detection-and-Tracking/master/output_images/notcar_test_img_hog.png" height="480" width="640" />
 
 
-For feature extraction the function `single_img_features()` wraps up the HOG, spatial, and histogram features functions. Parameters chosen for the additional features are listed in Table 2. `bin_spatial()` outputs spatial features by resizing the input LUV images to 16x16 pixels and vectorized the values. Histogram features were obtained using `color_hist()` that creates a histogram of the LUV image with a bin size of 16. Figures 3-5 shows the LUV, spatial features and histogram features of a sample test image.
+For feature extraction the function `single_img_features()` wraps up the HOG, spatial, and histogram features functions. Parameters chosen for the additional features are listed in Table 2. The function `bin_spatial()` outputs spatial features by simply resizing the input YCrCb images to 16x16 pixels lists the values in an array. Histogram features were obtained using `color_hist()` to create histograms  of all three channels using a bin size of 32. The histograms were then concatenated together. Figures 3-5 shows the YCrCb, spatial features and histogram features of a sample test image.
 
 [Table 1: Spatial, Histogram Features for Classifier]
 
 
-| HOG Parameters | Values   | 
+| Feature Parameters | Values   | 
 |:-------------:|:-------------:| 
-| Color Space    | LUV     |
-| hog_channel    | ALL     |
-| orientation   | 9      | 
-| pix_per_cell   | 16     |
-| cell_per_block | 4     |
+| Color Space    | YCrCb     |
+| Channel Number    | ALL      |
+| Spatial (image) Size | 16 x 16     |
+| Histogram Bin Size  | 32    | 
 
 
-### Figure 3. Training Image in LUV Color Space.
+### Figure 3. Training Image in YCrCb Color Space.
 
 <img src="https://raw.githubusercontent.com/bhumphrey0x20/Vehicle-Detection-and-Tracking/master/output_images/car_test_img_hog.png" height="480" width="640" />
 
@@ -86,13 +85,13 @@ For feature extraction the function `single_img_features()` wraps up the HOG, sp
 
 #### 3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
 
-Training of the classifiers can be found in section "Classifier Training" of the IPython notebook. Classification was done using a linear SVM. Test images were obtained from the [GTI vehicle image database](http://www.gti.ssr.upm.es/data/Vehicle_database.html) and [KITTI vision benchmark suit](http://www.cvlibs.net/datasets/kitti) (both links originally provided by Udacity). The training images were 64x64 pixels and presorted by vehicles and non-vehicles. These totaled 8792 vehicle images and 8968 non-vehicles images. Additionally, images were added added to the vehicles training set from a Udacity provide [image set](http://bit.ly/udacity-annoations-crowdai), however multiple errors were encountered while parsing the "corrected" csv file, so only an additional 251 vehicle images where added. These vehicles images were extracted from a larger road scene and resized to 64x64 pixels. 
+Training of the classifier can be found in section "Classifier Training" of the IPython notebook. Classification was done using a linear SVM. Test images were obtained from the [GTI vehicle image database](http://www.gti.ssr.upm.es/data/Vehicle_database.html) and [KITTI vision benchmark suit](http://www.cvlibs.net/datasets/kitti) (both links originally provided by Udacity). The training images were 64x64 pixels and presorted between vehicles and non-vehicles (for presorting code see python script 'getImages.py' in the repository). These totaled 8792 vehicle images and 8968 non-vehicles images. Additional images were added added to the vehicles training set from a Udacity provide [image set](http://bit.ly/udacity-annoations-crowdai), however multiple errors were encountered while parsing the "corrected" csv file, so only an additional 251 vehicle images where added. These vehicles images were extracted from a larger road scene and resized to 64x64 pixels. Finally, more images were extracted from preselected images from project_video.mp4. These included sections of the road, with no vehicles, and images of the white vehicle at a 'distance'. 
 
-Images were appended to two python lists: cars and notcars. The training images were then shuffled and a portion of the car images were randomly removed, so the number of vehicle and non-vehicle images were equal. This was done using the sklearn function `utils.shuffle()` with `n_samples` paramter equal to the number of non-vehicles.
+Training images were appended to two python lists: cars and notcars. The training images were then shuffled and a portion of the car images were randomly removed, so the number of vehicle and non-vehicle images were equal, using the `sklearn.utils.shuffle()`. The `n_samples` paramter was equal to the smallest length between the car and noncar list.
 
-Next, the features for each training images was obtained by converting to LUV and appending the color space, spatial, histogram, and HOG features using the `extract_features()` in section 'Feature Extraction Functions'. Testing features were extracted from 20% of the training features using sklearn function `train_test_split()`. 
+Next, the features for each training images was obtained by converting to YCrCb and appending the color space, spatial, histogram, and HOG features using the `extract_features()` (see section 'Feature Extraction Functions'). Testing features were extracted from 20% of the training features using `sklearn.model_selection.train_test_split()`. 
 
-Then both training and testing data were normalized using sklearn's `StandardScaler().fit()` and `StandardScaler().transform()`. Finally, the SVM model was training using `LinearSVC()`. The accuracy of the model tested using `LinearSVC().score()`. Results of the models uding various features parameters are listed in Table 2 above.  
+Then both training and testing data were normalized to unit variance `sklearn.preprocessing.StandardScaler().fit()` and `sklearn.preprocessing.StandardScaler().transform()`. Finally, the SVM model was training using `sklearn.svm.LinearSVC()`. The accuracy of the model tested using `sklearn.svm.LinearSVC().score()`. Results of the models uding various features parameters are listed in Table 2 above.  
 
 ### Table 2: Percent Accuracies of SVC models using various feature parameters.
 
