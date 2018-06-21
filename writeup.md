@@ -103,9 +103,9 @@ Then both training and testing data were normalized to unit variance with `sklea
 
 #### 1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
 
-Sliding windows was implementaed using a fixed window size of 64x64 using 75% overlap. Along the y-axis the windows start at y = 360  and end at y = 660. Along the x-axis the entire width was covered. 
+Sliding windows was implemented using a fixed window size of 64x64 using 75% overlap (*note: overlap in the code = 0.25 with is the fraction of the window step, yeilding 75 overlap for each window). Along the y-axis the windows start at y = 360  and end at y = 660. Along the x-axis the entire width was covered. 
 
-A 75% overlap was selected such that a given window could be positively classified multiple times. Through trial-and-error 75% 
+A 75% overlap was selected such that a given window could be positively classified multiple times allowing a hight value in the heatmap (discussed below). Through trial-and-error 75% 
 privided a slightly more robust detection algorithm than smaller values (e.g. 50% or 25%). Using factors of four (e.g. 3/4 = 75%) work well mathematically given the 64x64 pixel images size. Figure 6 shows all sliding windows superimposed on an sample image. Figure 7 shows a subsampled image of a car with windows superimposed over it.
 
 
@@ -115,9 +115,9 @@ privided a slightly more robust detection algorithm than smaller values (e.g. 50
 ### Figure 7. Plot of Training Image Histogram.
 <img src="https://raw.githubusercontent.com/bhumphrey0x20/Vehicle-Detection-and-Tracking/master/output_images/slideWindow_car2.png" height="480" width="640" />
 
-During vehicle classification each section of the image covered by a sliding window was subsampled and features were obtained using `single_img_features()`, then run through the classifier `sklearn.svm.SVC().predict()`. If a window was classifed as a vehicle the corrdinates were stored in an list called `hot_windows`. 
+During vehicle classification each section of the image that was covered by a sliding window was subsampled and features were obtained using `single_img_features()`, then run through the classifier `sklearn.svm.SVC().predict()`. If a window was classifed as a vehicle the coordinates were stored in an list called `hot_windows`. 
 
-To reduce false positives from during classification a heatmap was created, see section "Single Image Classification". First, the `hot_windows` array was passed to `add_heat()`, which takes the area of the positively classified window coordinates and adds "1" to a `np.zero_like()` image,for form a `heat`. The `heat` image was thresholded at a value of "3" using `apply_threshold()` to make the `heatmap` image. The "blobs " or positive areas remaining after thresholding in the heatmap were labeled using `scipy.ndimage.measurements.label()`. From the labels, bounding boxes were drawn on the original RGB image using `draw_label_bboxes()` frin section 'Heatmap Functions'.
+To reduce false positives from during classification a heatmap was created, see section "Single Image Classification" in the IPython notebook. First, the `hot_windows` array was passed to `add_heat()`, which takes the area of the positively classified window coordinates and adds "1" to a `np.zero_like()` image, for form a `heat`. The `heat` image was thresholded at a value of "3" using `apply_threshold()` to make the `heatmap` image. The "blobs " or positive areas remaining after thresholding in the heatmap were labeled using `scipy.ndimage.measurements.label()`. From the labels, bounding boxes were drawn on the original RGB image using `draw_label_bboxes()`.
 
 ### Figure 7. Vehicle Detection of Test Image.
 <img src="https://raw.githubusercontent.com/bhumphrey0x20/Vehicle-Detection-and-Tracking/master/output_images/single_image.jpg" height="480" width="640" />
@@ -137,16 +137,13 @@ Here's a [link to my video result](./project_video.mp4)
 #### 2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
 
 
-This process worked reasonable well for the test images, but a more robust approach was needed to remove false positives from the project video. For this, 10 `heat` images were stored in a circular buffer. After each frame the images in the buffer were summed, then a thresholded at a value = 35 using `apply_threshold()` (from section "Heatmap Functions"). Next, labels were found and bounding boxes drawn. 
-
-
+This process worked reasonable well for the test images, but a more robust approach was needed to remove false positives from the project video. For this, 10 `heat` images were stored in a circular buffer. After each video frame the images in the buffer were summed, then a threshold = 35 was applied to filter the false positives, using `apply_threshold()`  (see section "Heatmap Functions"). Finally, labels were found and bounding boxes drawn. 
 
 
 ### Discussion
 
 #### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-The biggest problems in the implementation of the video were 1, reduction of false positives and 2, finding a threshold value that would yield bounding boxes large enough to reasonable fit the detected vehicles. The original video implementation included tresholding a single heat image, but would not remove false positives. The summing of multiple heat image worked to reduce false positives. Further training with added road images also help. 
+The biggest problems in the implementation of the video were 1) reduction of false positives and 2) finding a threshold value that would yield bounding boxes large enough to reasonably fit the detected vehicles. The original video implementation included tresholding a single heat image, but would not remove false positives. Summing multiple heat images worked much better to reduce false positives, however, the original use of LUV was less effective than YCrCb. Additionally, increasing the histogram bin size from 16 to 32 also helped reduce false positives. 
 
-However 
-
+Finally, the use of all 3 image channels, finding the HOG features, as well as the other fetures, of each sliding window made processing a single image painfully slow: approximately 11 seconds per frame. 
