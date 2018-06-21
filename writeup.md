@@ -102,9 +102,17 @@ Then both training and testing data were normalized to unit variance `sklearn.pr
 
 #### 1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
 
-Sliding windows was implementaed using a set size of 64x64 pixels with 75% overlap for each window throughout the image. As a starting point, the windows start at the midpoint of the y-axis (y = 360 pixels) and covers the entire x-axis. This was somewhat arbitrary point, but the start point is high enought to cover periferal vehicles that are close and appear large. It is also low enought to exclude superfluous background objects. 
+Sliding windows was implementaed using a fixed window size of 64x64 using 75% overlap. Along the y-axis the windows start at y = 360  and end at y = 660. Along the x-axis the entire width was covered. 
 
-The idea of a 75% overlap was to cover as much of a distant (or smaller) vehicles as posiible without the need to resize. The example image below shows an image with a car at a mediam range distance: not too close, but not extremely far. The Figure shows all the sliding windows superimposed on the image. Figure __ shows a subsampled image of the car of size 65x100. At this size, with an overlap of 75%, the car is covered by four windows down and six windows across, giving a total of 24 windows over the entire car. Figure ___ shows another image segment of a car closer to the camera. The image segment is 85x145 pixels. And is covered by 40 windows. 
+A 75% overlap was selected such that a given window could be positively classified multiple times. Through trial-and-error 75% 
+privided a slightly more robust detection algorithm than smaller values (e.g. 50% or 25%). Using factors of four (e.g. 3/4 = 75%) work well mathematically given the 64x64 pixel images size. Figure 6 shows all sliding windows superimposed on an sample image. Figure 7 shows a subsampled image of a car with windows superimposed over it.
+
+
+### Figure 6. Plot of Training Image Histogram.
+<img src="https://raw.githubusercontent.com/bhumphrey0x20/Vehicle-Detection-and-Tracking/master/output_images/slidingWindows.jpg" height="480" width="640" />
+
+### Figure 7. Plot of Training Image Histogram.
+<img src="https://raw.githubusercontent.com/bhumphrey0x20/Vehicle-Detection-and-Tracking/master/output_images/slideWindows_car2.jpg" height="480" width="640" />
 
 During vehicle classification each window was subsampled and features were obtained using `single_img_features()` and run through the classifier, `clf.predict()`. If a window is classifed as a vehicle the corrdinates are stored in an array called `hot_windows`.  
 
