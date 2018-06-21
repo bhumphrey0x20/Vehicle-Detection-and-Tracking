@@ -116,11 +116,7 @@ privided a slightly more robust detection algorithm than smaller values (e.g. 50
 
 During vehicle classification each section of the image covered by a sliding window was subsampled and features were obtained using `single_img_features()`, then run through the classifier `sklearn.svm.SVC().predict()`. If a window was classifed as a vehicle the corrdinates were stored in an list called `hot_windows`. 
 
-To reduce false positives from during classification a heatmap was created, see section "Single Image Classification". First, the `hot_windows` array was passed to `add_heat()`, which takes the area of the positively classified window coordinates and adds "1" to a `np.zero_like()` image,for form a `heat`. The `heat` image was thresholded at a value of "3" using `apply_threshold()` to make the `heatmap` image. The "blobs " or positive areas remaining after thresholding in the heatmap were `scipy.ndimage.measurements.label()`. From the labels, bounding boxes were drawn on the original RGB image using `draw_label_bboxes()`
-
-
-
-The bounding boxes were then drawn on the original image using 'draw_labeled_bboxes()' (section 'Heatmap Functions') using based on hot_windows coordinates.  
+To reduce false positives from during classification a heatmap was created, see section "Single Image Classification". First, the `hot_windows` array was passed to `add_heat()`, which takes the area of the positively classified window coordinates and adds "1" to a `np.zero_like()` image,for form a `heat`. The `heat` image was thresholded at a value of "3" using `apply_threshold()` to make the `heatmap` image. The "blobs " or positive areas remaining after thresholding in the heatmap were labeled using `scipy.ndimage.measurements.label()`. From the labels, bounding boxes were drawn on the original RGB image using `draw_label_bboxes()` frin section 'Heatmap Functions'.
 
 
 ### Video Implementation
@@ -132,50 +128,10 @@ Here's a [link to my video result](./project_video.mp4)
 #### 2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
 
 
-
-
-This process worked reasonable well for single test images but a more robust approach was needed to remove false positives from the video image. For this 10 `heat` images were stored in a circular buffer. After each frame the images in the buffer were summed and passed to `apply_threshold()` using a threshold value = 20. Then labels were found and bounding boxes drawn. 
-
-Additionally, to track a vehicle's position over time a vehicle class was created to store information about it's location, bounding box size and area, and last frame since identified. 
+This process worked reasonable well for the test images, but a more robust approach was needed to remove false positives from the project video. For this, 10 `heat` images were stored in a circular buffer. After each frame the images in the buffer were summed, then a thresholded at a value = 35 using `apply_threshold()` (from section "Heatmap Functions"). Next, labels were found and bounding boxes drawn. 
 
 
 
-###########################
-
-![alt text][image3]
-
-#### 2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
-
-Ultimately I searched on two scales using YCrCb 3-channel HOG features plus spatially binned color and histograms of color in the feature vector, which provided a nice result.  Here are some example images:
-
-![alt text][image4]
----
-
-### Video Implementation
-
-#### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
-Here's a [link to my video result](./project_video.mp4)
-
-
-#### 2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
-
-I recorded the positions of positive detections in each frame of the video.  From the positive detections I created a heatmap and then thresholded that map to identify vehicle positions.  I then used `scipy.ndimage.measurements.label()` to identify individual blobs in the heatmap.  I then assumed each blob corresponded to a vehicle.  I constructed bounding boxes to cover the area of each blob detected.  
-
-Here's an example result showing the heatmap from a series of frames of video, the result of `scipy.ndimage.measurements.label()` and the bounding boxes then overlaid on the last frame of video:
-
-### Here are six frames and their corresponding heatmaps:
-
-![alt text][image5]
-
-### Here is the output of `scipy.ndimage.measurements.label()` on the integrated heatmap from all six frames:
-![alt text][image6]
-
-### Here the resulting bounding boxes are drawn onto the last frame in the series:
-![alt text][image7]
-
-
-
----
 
 ### Discussion
 
