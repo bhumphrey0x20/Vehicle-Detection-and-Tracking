@@ -108,7 +108,7 @@ During vehicle classification each section of the image that was covered by a sl
 To reduce false positives from during classification a heatmap was created, see section "Single Image Classification" in the IPython notebook. First, the `hot_windows` array was passed to `add_heat()`, which takes the area of the positively classified window coordinates and adds "1" to a `np.zero_like()` image, creating a `heat` image. The `heat` image was thresholded at a value of "3" using `apply_threshold()` to make the `heatmap`. The "blobs", or positive areas remaining after thresholding, in the heatmap were labeled using `scipy.ndimage.measurements.label()`. From the labels, bounding boxes were drawn on the original RGB image using `draw_label_bboxes()`.
 
 ### Figure 7. Vehicle Detection of Test Image.
-<img src="https://raw.githubusercontent.com/bhumphrey0x20/Vehicle-Detection-and-Tracking/master/output_images/single_image.jpg" height="480" width="640" />
+<img src="https://raw.githubusercontent.com/bhumphrey0x20/Vehicle-Detection-and-Tracking/master/output_images/single_image.jpg" height="240" width="320" />
 
 
 ### Video Implementation
