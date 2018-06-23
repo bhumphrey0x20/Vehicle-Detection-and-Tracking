@@ -34,7 +34,7 @@ The following is a writeup of Project 4. Additionally, a README file containing 
 
 The code for this step is contained in IPython notebook 'vehicle-detection.ipynb' under the section 'Feature Extraction Functions'. The majority of the code in this section was taken in whole, or adapted from, code provided in Lesson 20. 
 
-HOG features were obtained using the function `get_hog_features()` which wraps the sklearn function `skimage.hog()`. HOG parameters were selected after training models using various features (HOG and others). The feature combination with the best accuracy ( LUV color space) was selected however this was changed to help remove false positives. (see "Training Classifier" below). For HOG features this included using YCrCb color-space, using all three channels,  an orientation = 9, pixels_per_cell = 16 and cells_per_block = 2 (Table 1). Figures 1 and 2 show training images and their respective hog features visualations.
+HOG features were obtained using the function `get_hog_features()` which wraps the sklearn function `skimage.hog()`. HOG parameters were selected after training models using various features (HOG and others). The feature combination with the best accuracy ( LUV, All channels,etc) was selected however the color space was changed to YCrCb, as it appeared to remove false positives better. (see "Training Classifier" below). HOG features are listed in Table 1. Figures 1 and 2 show training images and their respective hog features visualations.
 
 [Table 1: HOG Parameters for Classifier]
 
@@ -58,9 +58,9 @@ HOG features were obtained using the function `get_hog_features()` which wraps t
 <img src="https://raw.githubusercontent.com/bhumphrey0x20/Vehicle-Detection-and-Tracking/master/output_images/notcar_test_img_hog.png" height="480" width="640" />
 
 
-For feature extraction the function `single_img_features()` wraps up the HOG, spatial, and histogram features functions. Parameters chosen for the additional features are listed in Table 2. The function `bin_spatial()` outputs spatial features by simply resizing the input YCrCb images to 16x16 pixels then lists the values in a single vector array. Histogram features were obtained using `color_hist()` to create histograms  of all three channels using a bin size of 32 (original training was performed using 16 bins, however during video processing this was changed to 32 to reduce false positives). The histograms were then concatenated together. Figures 3-5 shows the YCrCb, spatial features and histogram features of a sample test image.
+For feature extraction the function `single_img_features()` wraps up the HOG, spatial, and histogram feature functions. Parameters chosen for the additional features are listed in Table 2. The function `bin_spatial()` outputs spatial features by simply resizing the input YCrCb images to 16x16 pixels then converts the image into a single vector array. Histogram features were obtained using `color_hist()` using a bin size of 32 (original training was performed using 16 bins, however during video processing this was changed to 32 to reduce false positives). Figures 3-5 shows the YCrCb test sample image and its respective spatial features and histogram features plots.
 
-[Table 1: Spatial, Histogram Features for Classifier]
+[Table 2: Spatial, Histogram Features for Classifier]
 
 
 | Feature Parameters | Values   | 
