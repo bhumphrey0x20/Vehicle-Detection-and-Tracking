@@ -139,6 +139,6 @@ After successive attempts to reduce false positives completely while bounding bo
 
 The biggest problems in the implementation of the video were 1) reduction of false positives and 2) finding a threshold value that would yield bounding boxes large enough to reasonably fit the detected vehicles. The original video implementation included tresholding a single heat image, but would not remove false positives. Summing multiple heat images worked much better but did not reduce all false positives. Increasing the histogram bin size from 16 to 32 also helped reduce false positives, but increased the video processing time. In the end it was difficult to find a balance between the total number of heat images in the circular buffer and a threshold value. 
 
-The use of all 3 image channels, finding the HOG features, as well as the other fetures, of each sliding window made processing the video image frame painfully slow: approximately 11 seconds per frame. 
+The use of all 3 image channels, finding the HOG features, as well as the other fetures, of each sliding window made processing the video image frame slow: approximately 7.92 seconds per frame. 
 
 Using a Non-linear SVM with RBF kernel and C= 0.5 performed much better at correctely classifying vehicles, but the frame processing time, in its current form, was much too long and not usable in a real-time applicaton. 
