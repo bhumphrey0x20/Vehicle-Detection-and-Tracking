@@ -8,15 +8,6 @@ The goals / steps of this project are the following:
 * Run a pipeline on a video stream (start with the test_video.mp4 and later implement on full project_video.mp4) and create a heat map of recurring detections frame by frame to reject outliers and follow detected vehicles.
 * Estimate a bounding box for vehicles detected.
 
-[//]: # (Image References)
-[image1]: ./examples/car_not_car.png
-[image2]: ./examples/HOG_example.jpg
-[image3]: ./examples/sliding_windows.jpg
-[image4]: ./examples/sliding_window.jpg
-[image5]: ./examples/bboxes_and_heat.png
-[image6]: ./examples/labels_map.png
-[image7]: ./examples/output_bboxes.png
-[video1]: ./project_video.mp4
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/513/view) Points
 ### The rubric points are considered individually and it's implementation is describe below.  
@@ -106,10 +97,10 @@ Then both training and testing sets were normalized to unit variance with `sklea
 A sliding windows algorithm was implemented using a fixed window size of 64x64 and an overlap of 75% (*note: overlap in the code = 0.25 with is the fraction of the window step, yeilding 75 overlap for each window). This was done through trial-and-error. However, the 75% overlap offered more oppotunity to classifiy vehicles increasing the value of the heatmap (discussed below). Along the y-axis the windows start at y = 360  and end at y = 660. Along the x-axis the entire width was covered. Figure 6 shows all sliding windows superimposed on an sample image. Figure 7 shows a subsampled image of a car with windows superimposed over it.
 
 
-### Figure 6. Plot of Training Image Histogram.
+### Figure 6. Test Image with All Sliding Windows Superimpose.
 <img src="https://raw.githubusercontent.com/bhumphrey0x20/Vehicle-Detection-and-Tracking/master/output_images/slidingWindows.jpg" height="480" width="640" />
 
-### Figure 7. Plot of Training Image Histogram.
+### Figure 7. Car, Subsample of Test Image with Sliding Window.
 <img src="https://raw.githubusercontent.com/bhumphrey0x20/Vehicle-Detection-and-Tracking/master/output_images/slideWindow_car2.png" height="480" width="640" />
 
 During vehicle classification each section of the image that was covered by a sliding window was subsampled and features were obtained using `single_img_features()`, then run through the classifier `sklearn.svm.SVC().predict()`. If a window was classifed as a vehicle the coordinates were stored in an list called `hot_windows`. 
