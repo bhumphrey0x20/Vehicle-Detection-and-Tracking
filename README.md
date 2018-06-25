@@ -7,8 +7,9 @@ Repository Contents include:
 * writeup.md - project implementation
 * vehicle_detection.ipynb - python code
 * getImages.py - python script to extract training videos from labeled data set
-* project_video_DetectT40.mp4 - video of vehicle dectection using linear SVM
-* project_video_Detect_rbf.mp4 - video of vehicle dectection using SVM with rbf kernel
+* output_image - directory includeing sample images and 
+    * project_video_DetectT40.mp4 - video of vehicle dectection using linear SVM
+    * project_video_Detect_rbf.mp4 - video of vehicle dectection using SVM with rbf kernel
 
 The goals / steps of this project are the following:
 
