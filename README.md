@@ -1,4 +1,4 @@
-## Udacity Self-Driving Car, Term1, 
+## Udacity Self-Driving Car, Term1 
 ### Project 4: **Vehicle Detection**
 
 
