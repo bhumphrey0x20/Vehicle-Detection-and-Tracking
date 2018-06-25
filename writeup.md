@@ -117,8 +117,7 @@ To reduce false positives from during classification a heatmap was created (see 
 
 #### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
 
-
-<a href="https://youtu.be/l6uH7AAM0e4" target="_blank"><img src=https://i.ytimg.com/vi/l6uH7AAM0e4/2.jpg?time=1529894186711" alt="Vehicle Detection Test Video" width="240" height="180" border="10" /></a>
+<a href="https://youtu.be/l6uH7AAM0e4" target="_blank"><img src="https://i.ytimg.com/vi/l6uH7AAM0e4/2.jpg?time=1529895207512" alt="Vehicle Detection Video Using Linear SVM" width="240" height="180" border="10" /></a>
 
 
 #### 2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
@@ -127,8 +126,6 @@ The single image process worked reasonable well for the test images, but a more 
 Video processing with the heat buffer can be found in IPython notebook section "Video Processing".
 
 This approached was sufficient but still yielded a few false positives. Additionally, between frames 600 and 800 the white car in the video was periodically undetected. A link to this video is provided below
-
-<a href="https://youtu.be/l6uH7AAM0e4" target="_blank"><img src="https://i.ytimg.com/vi/l6uH7AAM0e4/2.jpg?time=1529895207512" alt="Vehicle Detection Video Using Linear SVM" width="240" height="180" border="10" /></a>
 
 
 #### 3. Another Approach: Non-Linear SVM
