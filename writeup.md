@@ -146,6 +146,6 @@ The biggest problems in the implementation of the video were 1) reduction of fal
 
 The heat buffer was tested at a size of 5, 15, and 20. The larger buffer sized increased the blob values close to 255 and did not improve filtering perfomance. In the end it was challenging to find a balance between the total number of heat images in the circular buffer and a threshold value. 
 
-The use of all 3 image channels, finding the HOG features, as well as the other fetures, of each sliding window made processing the video image frame slow: approximately 7.92 seconds per frame. Not adequate for real-time applications.
+The use of all 3 image channels, finding the HOG features, as well as the other fetures, of each sliding window made processing the video image frame slow: approximately 4.36 seconds per frame. Not adequate for real-time applications.
 
 Using a Non-linear SVM with RBF kernelperformed much better at correctely classifying vehicles, but the frame processing time, in its current form, was much too long and not usable in a real-time applicaton. 
