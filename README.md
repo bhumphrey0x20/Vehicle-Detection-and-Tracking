@@ -10,7 +10,7 @@ Repository Contents include:
 * output_image - directory includeing sample images and 
     * project_video_DetectT40.mp4 - video of vehicle dectection using linear SVM
     * project_video_Detect_rbf.mp4 - video of vehicle dectection using SVM with rbf kernel
-
+      *** Note videos have been resized from original to upload to github
 The goals / steps of this project are the following:
 
 * Perform feature extraction using Histogram of Oriented Gradients (HOG), color features, and histogram of colors from a labeled training set of images and train a classifier Linear SVM classifier
