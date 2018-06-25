@@ -122,8 +122,7 @@ To reduce false positives from during classification a heatmap was created (see 
 
 #### 2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
 
-The single image process worked reasonable well for the test images, but a more robust approach was needed to remove false positives from the project video. For this, 10 `heat` images were stored in a circular buffer. After each video frame the images in the buffer were summed and threshold at a value equal to 40. Finally, labels were found and bounding boxes drawn. 
-Video processing with the heat buffer can be found in IPython notebook section "Video Processing".
+The single image process worked reasonable well for the test images, but a more robust approach was needed to remove false positives from the project video. For this, 10 `heat` images were stored in a circular buffer. After each video frame the images in the buffer were summed and threshold at a value equal to 40. The idea for which was found on the ![forum](https://discussions.udacity.com/t/is-using-hog-subsample-method-required/235326/6). Finally, labels were found and bounding boxes drawn. Video processing with the heat buffer can be found in IPython notebook section "Video Processing".
 
 This approached was sufficient but still yielded a few false positives. Additionally, between frames 600 and 800 the white car in the video was periodically undetected. A link to this video is provided below
 
