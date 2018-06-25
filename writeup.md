@@ -123,16 +123,19 @@ To reduce false positives from during classification a heatmap was created (see 
 
 #### 2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
 
-The single image process worked reasonable well for the test images, but a more robust approach was needed to remove false positives from the project video. For this, 10 `heat` images were stored in a circular buffer. After each video frame the images in the buffer were summed, then a threshold = 35 was applied to filter the false positives, using `apply_threshold()`  (see section "Heatmap Functions"). Finally, labels were found and bounding boxes drawn. 
+The single image process worked reasonable well for the test images, but a more robust approach was needed to remove false positives from the project video. For this, 10 `heat` images were stored in a circular buffer. After each video frame the images in the buffer were summed and threshold at a value equal to 40. Finally, labels were found and bounding boxes drawn. 
+Video processing with the heat buffer can be found in IPython notebook section "Video Processing".
 
-This approached was sufficient but still yielded a few false positives. Additionally, between frames 600 and 800 the white car in the video periodically lost it's bounding boxes(e.g. threshold is filtering out the car).
+This approached was sufficient but still yielded a few false positives. Additionally, between frames 600 and 800 the white car in the video was periodically undetected. A link to this video is provided below
 
 <a href="https://youtu.be/l6uH7AAM0e4" target="_blank"><img src="https://i.ytimg.com/vi/l6uH7AAM0e4/2.jpg?time=1529895207512" alt="Vehicle Detection Video Using Linear SVM" width="240" height="180" border="10" /></a>
 
 
 #### 3. Another Approach: Non-Linear SVM
 
-After successive attempts to reduce false positives completely while bounding boxes around both cars in the video a non-linear SVM was implemented. A RBF kernel was selected with a C-value = 0.5. The heatmap implementation described above was implemented to filter false positives and applied to the project video. The RBF kernel implementation work very well, however processing the video was excrutiatingly long. A link to the processed video is listed below.
+After successive attempts to reduce false positives completely while identifying continuously identifying both cars in the video, a non-linear SVM was implemented using an RBF kernel. The C value was testing at 0.5, however it was found that the default value (C=1.0) worked the best. 
+
+The circular buffer heatmap implementation described above was implemented to filter false positives, using a threshold value = 35. The RBF kernel implementation work very well, no false positives can be seen and the two cars on the right side of the image are correctly classified of the entire video.  However, processing the video was excrutiatingly long, and averages approximately 14 seconds per frame. A link to the processed video is listed below.
 
 <a href="https://youtu.be/OW1txgFD_0o"><img src="https://i.ytimg.com/vi/OW1txgFD_0o/3.jpg?time=1529895060356" alt="Vehicle Detection Video Using Non-Linear SVM" width="240" height="180" border="10" /></a>
 
@@ -142,8 +145,10 @@ After successive attempts to reduce false positives completely while bounding bo
 
 #### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-The biggest problems in the implementation of the video were 1) reduction of false positives and 2) finding a threshold value that would yield bounding boxes large enough to reasonably fit the detected vehicles. The original video implementation included tresholding a single heat image, but would not remove false positives. Summing multiple heat images worked much better but did not reduce all false positives. Increasing the histogram bin size from 16 to 32 also helped reduce false positives, but increased the video processing time, and in one instance createed a new false positve that did not exit with the smaller bin size. In the end it was challenging to find a balance between the total number of heat images in the circular buffer and a threshold value. 
+The biggest problems in the implementation of the video were 1) reduction of false positives and 2) finding a threshold value that would yield bounding boxes large enough to reasonably fit the detected vehicles yet successfully filter false positives. Single heat image tresholding used to process a single test image was insufficient for video processing.  Summing multiple heat images worked much better, but did not reduce all false positives. Increasing the histogram bin size from 16 to 32 also helped reduce false positives, however this had the unintended consequence of creating new false positives and increased the video processing time. 
+
+The heat buffer was tested at a size of 5, 15, and 20. The larger buffer sized increased the blob values close to 255 and did not improve filtering perfomance. In the end it was challenging to find a balance between the total number of heat images in the circular buffer and a threshold value. 
 
 The use of all 3 image channels, finding the HOG features, as well as the other fetures, of each sliding window made processing the video image frame slow: approximately 7.92 seconds per frame. Not adequate for real-time applications.
 
-Using a Non-linear SVM with RBF kernel and C= 0.5 performed much better at correctely classifying vehicles, but the frame processing time, in its current form, was much too long and not usable in a real-time applicaton. 
+Using a Non-linear SVM with RBF kernelperformed much better at correctely classifying vehicles, but the frame processing time, in its current form, was much too long and not usable in a real-time applicaton. 
