@@ -15,7 +15,7 @@ The goals / steps of this project are the following:
 ---
 ### Writeup / README
 
-#### 1. Provide a Writeup / README that includes all the rubric points and how you addressed each one.  You can submit your writeup as markdown or pdf.  [Here](https://github.com/udacity/CarND-Vehicle-Detection/blob/master/writeup_template.md) is a template writeup for this project you can use as a guide and a starting point.  
+#### 1. Provide a Writeup / README that includes all the rubric points and how you addressed each one.  You can submit your writeup as markdown or pdf.  
 
 The following is a writeup of Project 4. Additionally, a README file containing the project summary is located in the main part of this repository. All code referenced in this write up can be found in the IPython notebook "vehicle_detection.ipynb"
 
@@ -25,7 +25,7 @@ The following is a writeup of Project 4. Additionally, a README file containing 
 
 The code for this step is contained in IPython notebook 'vehicle-detection.ipynb' under the section 'Feature Extraction Functions'. The majority of the code in this section was taken in whole, or adapted from, code provided in Lesson 20. 
 
-HOG features were obtained using the function `get_hog_features()` which wraps the sklearn function `skimage.hog()`. HOG parameters were selected after training models using various features (HOG and others). The feature combination with the best accuracy ( LUV, All channels,etc) was selected however the color space was changed to YCrCb, as it appeared to remove false positives better. (see "Training Classifier" below). HOG features are listed in Table 1. Figures 1 and 2 show training images and their respective hog features visualations.
+HOG features were obtained using the function `get_hog_features()` which wraps the sklearn function `skimage.hog()`. HOG parameters were selected after training models using various features (HOG and others). The feature combination with the best accuracy ( LUV, All channels,etc) was selected however the color space was changed to YCrCb, as it appeared to remove  more false while testing on section of the project video (see "Training Classifier" below). HOG features are listed in Table 1. Figures 1 and 2 show training images and their respective hog features visualations.
 
 [Table 1: HOG Parameters for Classifier]
 
@@ -77,13 +77,13 @@ For feature extraction the function `single_img_features()` wraps up the HOG, sp
 
 #### 3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
 
-Training of the classifier can be found in section "Classifier Training" of the IPython notebook. Initial classification was done using a linear SVM. Test images were obtained from the [GTI vehicle image database](http://www.gti.ssr.upm.es/data/Vehicle_database.html) and [KITTI vision benchmark suit](http://www.cvlibs.net/datasets/kitti) (both links originally provided by Udacity). The training images were 64x64 pixels and presorted between vehicles and non-vehicles (for presorting code see python script 'getImages.py' in the repository). These totaled 8792 vehicle images and 8968 non-vehicles images. Additional images were added to the vehicles training set from a Udacity provide [image set](http://bit.ly/udacity-annoations-crowdai), however multiple errors were encountered while parsing the "corrected" csv file, so only an additional 251 vehicle images where added. The vehicle and nonvehicle images were extracted from a larger road scene and resized to 64x64 pixels. Finally, additional images were extracted from project_video.mp4. These included sections of the road and median barrier, with no vehicles, and images of the white vehicle at a 'distance'. 
+Training of the classifier can be found in section "Classifier Training" of the IPython notebook. Initial classification was done using a linear SVM. Test images were obtained from the [GTI vehicle image database](http://www.gti.ssr.upm.es/data/Vehicle_database.html) and [KITTI vision benchmark suit](http://www.cvlibs.net/datasets/kitti) (both links originally provided by Udacity). The training images were 64x64 pixels and presorted between vehicles and non-vehicles (for presorting code see python script 'getImages.py' in the repository).  Additional images were added to the vehicles training set from a Udacity provide [image set](http://bit.ly/udacity-annoations-crowdai), however multiple errors were encountered while parsing the "corrected" csv file, so only a fraction of the available images (251) where added. Finally, additional images were extracted from several frames in `project_video.mp4`. These included sections of the road and median barrier and images of the white vehicle at a distance. 
 
-Training images were appended to two python lists: cars and notcars. The training images were then shuffled and the total length of each list was set equal to one another using `sklearn.utils.shuffle()`, with `n_samples` paramter was equal to the smallest of the two lengths: car or noncar.
+Training images were appended to two python lists: cars and notcars. The training images were then shuffled and the total length of each list was set equal to one another using `sklearn.utils.shuffle()`, with the `n_samples` paramter equal to the smallest of the two lengths: car or noncar.
 
-Next, the features for each training image was obtained by converting to YCrCb and appending the spatial, histogram, and HOG features with the function`extract_features()` (see section 'Feature Extraction Functions'). A test set was extracted from 20% of the training set using `sklearn.model_selection.train_test_split()`. 
+Next, the features for each training image was obtained by converting each training image to YCrCb, finding the spatial, histogram, and HOG features with function`extract_features()` and appending the features together (see section 'Feature Extraction Functions'). 
 
-Then, both training and testing sets were normalized to unit variance with `sklearn.preprocessing.StandardScaler().fit()` and `sklearn.preprocessing.StandardScaler().transform()`. Finally, the SVM model was trained using `sklearn.svm.LinearSVC()`. The accuracy of the model tested using `sklearn.svm.LinearSVC().score()`. Results of the models using various features parameters are listed in Table 2 above.  
+A test set was extracted from 20% of the training set using `sklearn.model_selection.train_test_split()`. Both training and testing sets were normalized to unit variance with `sklearn.preprocessing.StandardScaler().fit()` and `sklearn.preprocessing.StandardScaler().transform()`. Finally, the SVM model was trained using `sklearn.svm.LinearSVC()`. The accuracy of the model tested using `sklearn.svm.LinearSVC().score()`. Results of different trained models, using various feature parameters are listed in Table 2 below.  
 
 ### Table 2: Percent Accuracies of SVC models using various feature parameters.
 
