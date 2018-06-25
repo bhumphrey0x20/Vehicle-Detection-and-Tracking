@@ -125,7 +125,7 @@ The single image process worked reasonable well for the test images, but a more 
 
 This approached was sufficient but still yielded a few false positives. Additionally, between frames 600 and 800 the white car in the video periodically lost it's bounding boxes(e.g. threshold is filtering out the car).
 
-<a href="https://youtu.be/PPQfaZP2YJU" target="_blank"><img src="https://i.ytimg.com/vi/PPQfaZP2YJU/1.jpg?time=1529602807868" alt="Vehicle Detection Video Using Linear SVM" width="240" height="180" border="10" /></a>
+<a href="https://youtu.be/l6uH7AAM0e4" target="_blank"><img src="https://i.ytimg.com/vi/l6uH7AAM0e4/2.jpg?time=1529895207512" alt="Vehicle Detection Video Using Linear SVM" width="240" height="180" border="10" /></a>
 
 
 #### 3. Another Approach: Non-Linear SVM
