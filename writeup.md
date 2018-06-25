@@ -116,7 +116,7 @@ To reduce false positives from during classification a heatmap was created, see 
 #### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
 
 
-<a href="https://youtu.be/PPQfaZP2YJU" target="_blank"><img src="https://i.ytimg.com/vi/PPQfaZP2YJU/1.jpg?time=1529602807868" alt="Vehicle Detection Test Video" width="240" height="180" border="10" /></a>
+<a href="https://youtu.be/l6uH7AAM0e4" target="_blank"><img src=https://i.ytimg.com/vi/l6uH7AAM0e4/2.jpg?time=1529894186711" alt="Vehicle Detection Test Video" width="240" height="180" border="10" /></a>
 
 
 #### 2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
@@ -132,7 +132,7 @@ This approached was sufficient but still yielded a few false positives. Addition
 
 After successive attempts to reduce false positives completely while bounding boxes around both cars in the video a non-linear SVM was implemented. A RBF kernel was selected with a C-value = 0.5. The heatmap implementation described above was implemented to filter false positives and applied to the project video. The RBF kernel implementation work very well, however processing the video was excrutiatingly long. A link to the processed video is listed below.
 
-<a href="https://youtu.be/PPQfaZP2YJU" target="_blank"><img src="https://i.ytimg.com/vi/PPQfaZP2YJU/1.jpg?time=1529602807868" alt="Vehicle Detection Video Using Non-Linear SVM" width="240" height="180" border="10" /></a>
+<a href="https://youtu.be/OW1txgFD_0o"><img src="https://i.ytimg.com/vi/OW1txgFD_0o/3.jpg?time=1529895060356" alt="Vehicle Detection Video Using Non-Linear SVM" width="240" height="180" border="10" /></a>
 
 
 
